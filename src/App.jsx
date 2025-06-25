@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 import Inputs from './components/Inputs'
-import Persons from './components/Persons' 
+import Persons from './components/Persons'
 import './App.css';
 
 const App = () => {
@@ -15,11 +15,9 @@ const App = () => {
   const handleFilterChange = (event) => setFilterNombre(event.target.value)
 
   useEffect(() => {
-    console.log('effect')
     axios
       .get('https://backen-agenda.vercel.app/api/persons') 
       .then(response => {
-        console.log('promise fulfilled')
         setPersons(response.data)
       })
       .catch(error => {
@@ -41,7 +39,6 @@ const App = () => {
     const newPerson = {
       name: newName.trim(),
       number: newNumber.trim()
-      // El ID lo generará el backend
     }
 
     axios
@@ -58,15 +55,16 @@ const App = () => {
   }
 
   const deletePerson = (id) => {
-    if (window.confirm('Are you sure you want to delete this person?')) {
+    if (window.confirm('Are you sure you want to delete this contact?')) {
       axios
         .delete(`https://backen-agenda.vercel.app/api/persons/${id}`)
         .then(() => {
           setPersons(persons.filter(person => person.id !== id))
+          alert('Contact deleted successfully')
         })
         .catch(error => {
           console.error('Error deleting person:', error)
-          alert('Could not delete person from the phonebook')
+          alert('Could not delete contact')
         })
     }
   }
@@ -80,20 +78,22 @@ const App = () => {
   return (
     <div className='note'>
       <h2>Phonebook</h2>
-      <div>
-        filter shown with <Inputs value={filterNombre} onChange={handleFilterChange}/>
+      <div className="filter-container">
+        filter shown with <Inputs value={filterNombre} onChange={handleFilterChange} placeholder="Filter by name"/>
       </div>
       <form onSubmit={addName}>
         <div>
           name: <Inputs
             value={newName}
             onChange={handleNameChange}
+            placeholder="Enter name"
           />
         </div>
         <div>
           number: <Inputs 
             value={newNumber}
             onChange={handleNumberChange}
+            placeholder="Enter phone number"
           />
         </div>
         <div>

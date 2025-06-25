@@ -73,6 +73,16 @@ button:hover {
   background-color: #eee;
 }
 
+/* Estilos para el botón de eliminar */
+.delete-button {
+  background-color: #e74c3c;
+  margin-left: 10px;
+}
+
+.delete-button:hover {
+  background-color: #c0392b;
+}
+
 /* Estilos para el formulario */
 form {
   margin-bottom: 20px;
