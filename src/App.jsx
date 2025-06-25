@@ -57,6 +57,20 @@ const App = () => {
       })
   }
 
+  const deletePerson = (id) => {
+    if (window.confirm('Are you sure you want to delete this person?')) {
+      axios
+        .delete(`https://backen-agenda.vercel.app/api/persons/${id}`)
+        .then(() => {
+          setPersons(persons.filter(person => person.id !== id))
+        })
+        .catch(error => {
+          console.error('Error deleting person:', error)
+          alert('Could not delete person from the phonebook')
+        })
+    }
+  }
+
   const filteredPersons = filterNombre.trim().length > 0
     ? persons.filter(person =>
         person.name.toLowerCase().includes(filterNombre.trim().toLowerCase())
@@ -87,7 +101,7 @@ const App = () => {
         </div>
       </form>
       <h2>Numbers</h2>
-      <Persons persons={filteredPersons} />
+      <Persons persons={filteredPersons} onDelete={deletePerson} />
     </div>
   )
 }
